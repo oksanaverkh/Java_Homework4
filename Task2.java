@@ -9,28 +9,39 @@
 // Input: s = "()"
 // Output: true
 
-import java.util.Arrays;
-import java.util.LinkedList;
+import java.util.*;
 
 public class Task2 {
     public static void main(String[] args) {
-    String text = "/f//yyyyy/../iii/aa";
-    System.out.println(simplifyPath(text));
+        String symbols = "()[]{}";
+        System.out.println(isValid(symbols));
 
-}
-
-public static String simplifyPath(String path) {
-    Deque<String> list = new LinkedList<>();
-    String[] arr = path.split("/");
-    for (int i = 0; i < arr.length; i++) {
-        if (arr[i].equals(".") || arr[i].equals("")) continue;
-            
-        else if (arr[i].equals("..")) {
-            if (list.isEmpty()) list.add("/");
-            else list.pollLast();
-        } else list.add(arr[i]);
     }
 
-    return "/"+String.join("/", list);
-}
+    public static Boolean isValid(String text) {
+        Boolean flag = false;
+        text = "()[]{}";
+        Deque<String> list = new LinkedList<>();
+        String[] arr = new String[text.length()];
+        for (int i = 0; i < text.length(); i++) {
+            arr[i] =text.substring(i, i+1);
+ 
+        }
+        list.add(arr[0]);
+
+        for (int i = 1; i < arr.length; i++) {
+            // System.out.println(list.getFirst());
+            // System.out.println(arr[i]);
+            if (list.getFirst().equals("(") && arr[i]==")") list.pollFirst();
+            else if (list.getFirst().equals("[") && arr[i]=="]") list.remove();
+            else if (list.getFirst().equals("{") && arr[i]=="}") list.remove();
+            else list.addLast(arr[i]);
+            
+        }
+ 
+        System.out.println(list);
+
+        if (list.isEmpty()) flag = true;
+        return flag;
+    }
 }
